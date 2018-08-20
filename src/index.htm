@@ -21,10 +21,6 @@ tbody.topmargin::before
 
 		<div class="overflow-auto">
 		
-			<p>{{message}}</p>
-
-			<input v-model="message">
-			
 			<joe-table inline-template v-model="data"> 
 				<table>
 					<tbody v-for="(entity, ekey) in value">
