@@ -17,47 +17,18 @@ tbody.topmargin::before
 <body class="sans-serif">
 	<main id="app" class="pa2">
 		
+		<h3>Debug:</h3>
+		<joe-ul v-model="data">
+		</joe-ul>
+		
 		<h2>Dataview</h2>
 
 		<div class="overflow-auto">
 		
-			<joe-table inline-template v-model="data"> 
-				<table>
-					<tbody v-for="(entity, ekey) in value">
-						<tr>
-							<td v-for="(field, key) in entity">
-								<joe-input inline-template
-									v-model="value[ekey][key]"
-									v-bind:name="key">
-									<div>
-									<label :for="name">
-										{{name}}
-									</label>
-									<input
-										:id="name"
-										:name="name"
-										:value="value"
-										v-on:input="$emit('input', $event.target.value)"/>
-									</div>
-								</joe-input>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<joe-table v-model="data"> 
+				
 			</joe-table>
 			
-			<joe-ul inline-template v-model="data">
-				<ul>
-					<li v-for="entity in value">
-						{{entity.name}}
-						<ul>
-							<li v-for="(value, key) in entity">
-								<b>{{key}}</b> : {{value}}
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</joe-ul>
 			
 		</div>
 		
