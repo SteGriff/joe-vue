@@ -17,12 +17,17 @@ Vue.component('joe-table', {
 	  if (index === -1) { return; }
 	  var duplicate = clone(entity);
 	  this.value.splice(index + 1, 0, duplicate);
+	},
+	dataIsArray : function()
+	{
+	  return Object.prototype.toString.call(this.value) === '[object Array]';
 	}
   },
   template: `<div>
 			<table class="collapse">
 			<tbody v-for="(entity, ekey) in value">
 			<tr>
+			<td class="pa1"><b>{{ekey}}</b></td>
 			<td
 			class="pa1 ba b--black"
 			v-if="typeof(entity) === 'object'"
@@ -47,15 +52,21 @@ Vue.component('joe-table', {
 				</joe-input>
 			</td>
 			<td colspan="100"
-			  class="pa1 ba b--black">
+			  class="pa1 ba b--black"
+			  v-if="dataIsArray()">
 				<button
 				  class="fr"
 				  v-on:click="deleteEntity(entity)"
 				  >🗑️</button>
 				<button
 				  class="fr"
-				  v-on:click="duplicateEntity(entity)"
+				  v-on:click="duplicateEntity(entity)"				  
 				  >📋</button>
+			</td>
+			<td colspan="100"
+			  class="pa1 ba b--black"
+			  v-if="!dataIsArray()">
+				<small>(Not an array)</small>
 			</td>
 			</tr>
 			<tr
@@ -91,9 +102,9 @@ Vue.component('joe-input', {
 Vue.component('joe-ul', {
   props: ['value'],
   template: `<ul>
-				<li v-for="entity in value">
+				<li v-for="(entity, ekey) in value">
 					<span v-if="typeof(entity) === 'object'">
-					{{entity.name}}
+					{{ekey}}
 					<ul>
 						<li v-for="(value, key) in entity">
 							<b>{{key}}</b> : {{value}}
@@ -105,4 +116,9 @@ Vue.component('joe-ul', {
 					</span>
 				</li>
 			</ul>`
+})
+
+Vue.component('json-editor', {
+  props: ['value'],
+  template: `<p contenteditable v-on:input="$emit('input', JSON.parse($event.target.innerText))">{{value}}</p>`
 })

@@ -33,11 +33,13 @@ tbody.topmargin::before
 		<p>{{shownEditors}}</p>
 		<joe-ul v-model="shownEditors"></joe-ul>
 		
-		
 		<h3>Debug:</h3>
 		<joe-ul v-model="data">
 		</joe-ul>
 		
+		<h3>The JSON
+		<small>(editing is buggy, try pasting)</small></h3>
+		<json-editor v-model="data"></json-editor>
 		
 	</main>
 	
