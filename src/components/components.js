@@ -1,27 +1,48 @@
 Vue.component('joe-table', {
-  props: ['value'],
-  template: `<table>
+  props: ['value', 'shown-editors'],
+  methods : {
+    isShown : function(id)
+    {
+      return this.shownEditors.indexOf(id) !== -1;
+    }
+  },
+  template: `<table class="collapse">
 			<tbody v-for="(entity, ekey) in value">
 			<tr>
 			<td
+			class="pa1 ba b--black"
 			v-if="typeof(entity) === 'object'"
-			v-for="(field, key) in entity">
+			v-for="(field, key, index) in entity">
 				<joe-input
 					v-if="typeof(field) !== 'object'"
 					v-model="value[ekey][key]"
 					v-bind:name="key">
 				</joe-input>
-				<joe-table
+				<button
 				v-if="typeof(field) === 'object'"
-				v-model="value[ekey][key]">
-				</joe-table>
+				v-on:click="$emit('toggle', ekey + key)">
+				{{key}}
+				</button>
 			</td>
-			<td v-if="typeof(entity) === 'string'">
+			<td 
+			  class="pa1 ba b--black"
+			  v-if="typeof(entity) === 'string'">
 				<joe-input
 					v-model="value[ekey]"
 					v-bind:name="ekey">
 				</joe-input>
 			</td>
+			</tr>
+			<tr
+				v-bind:id="ekey + key"
+				v-if="typeof(field) === 'object' && isShown(ekey + key)"
+				v-for="(field, key, index) in entity">
+				<td class="pa1 ba b--black" colspan="100">
+				<joe-table
+					v-model="value[ekey][key]"
+					v-bind:shown-editors="shownEditors">
+				</joe-table>
+				</td>
 			</tr>
 			</tbody>
 			</table>`

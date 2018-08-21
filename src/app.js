@@ -35,8 +35,22 @@ var inputData = [
 
 var app = new Vue({
   el: '#app',
+  methods : {
+	showHide : function(id)
+	{
+		var index = this.shownEditors.indexOf(id);
+		if (index !== -1)
+		{
+			this.shownEditors.splice(index, 1);
+		}
+		else
+		{
+			this.shownEditors.push(id);
+		}
+	}
+  },
   data: {
     data: inputData,
-    message: 'Hello Vue!'
+    shownEditors: []
   }
 })

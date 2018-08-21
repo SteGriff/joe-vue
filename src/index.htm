@@ -17,20 +17,27 @@ tbody.topmargin::before
 <body class="sans-serif">
 	<main id="app" class="pa2">
 		
-		<h3>Debug:</h3>
-		<joe-ul v-model="data">
-		</joe-ul>
-		
 		<h2>Dataview</h2>
 
 		<div class="overflow-auto">
 		
-			<joe-table v-model="data"> 
-				
+			<joe-table
+				v-model="data"
+				v-bind:shown-editors="shownEditors"
+				v-on:toggle="showHide($event)"> 
 			</joe-table>
 			
-			
 		</div>
+		
+		<h3>Shown editors:</h3>
+		<p>{{shownEditors}}</p>
+		<joe-ul v-model="shownEditors"></joe-ul>
+		
+		
+		<h3>Debug:</h3>
+		<joe-ul v-model="data">
+		</joe-ul>
+		
 		
 	</main>
 	
