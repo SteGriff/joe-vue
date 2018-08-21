@@ -4,9 +4,23 @@ Vue.component('joe-table', {
     isShown : function(id)
     {
       return this.shownEditors.indexOf(id) !== -1;
-    }
+    },
+	deleteEntity : function(entity)
+	{
+	  var index = this.value.indexOf(entity);
+	  if (index === -1) { return; }
+	  this.value.splice(index, 1);
+	},
+	duplicateEntity : function(entity)
+	{
+	  var index = this.value.indexOf(entity);
+	  if (index === -1) { return; }
+	  var duplicate = clone(entity);
+	  this.value.splice(index + 1, 0, duplicate);
+	}
   },
-  template: `<table class="collapse">
+  template: `<div>
+			<table class="collapse">
 			<tbody v-for="(entity, ekey) in value">
 			<tr>
 			<td
@@ -21,7 +35,7 @@ Vue.component('joe-table', {
 				<button
 				v-if="typeof(field) === 'object'"
 				v-on:click="$emit('toggle', ekey + key)">
-				{{key}}
+				🔽 {{key}}
 				</button>
 			</td>
 			<td 
@@ -31,6 +45,17 @@ Vue.component('joe-table', {
 					v-model="value[ekey]"
 					v-bind:name="ekey">
 				</joe-input>
+			</td>
+			<td colspan="100"
+			  class="pa1 ba b--black">
+				<button
+				  class="fr"
+				  v-on:click="deleteEntity(entity)"
+				  >🗑️</button>
+				<button
+				  class="fr"
+				  v-on:click="duplicateEntity(entity)"
+				  >📋</button>
 			</td>
 			</tr>
 			<tr
@@ -45,7 +70,8 @@ Vue.component('joe-table', {
 				</td>
 			</tr>
 			</tbody>
-			</table>`
+			</table>
+			</div>`
 })
 
 Vue.component('joe-input', {
