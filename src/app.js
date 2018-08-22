@@ -3,6 +3,7 @@ var inputData = [
 			"name" : "geoff",
 			"level" : 5,
 			"dob" : "1998-04-01T12:15:00Z",
+			"active":true,
 			"qualifications" :
 			[
 				{"name" : "Fire Safety Lv 1", "earned" : "2016-05-05"},
@@ -18,6 +19,7 @@ var inputData = [
 			"name" : "sandra",
 			"level" : 6,
 			"dob" : "1995-02-22T15:00:00Z",
+			"active":true,
 			"qualifications" :
 			[
 				{"name" : "Fire Safety Lv 1", "earned" : "2015-05-05"},
@@ -30,6 +32,7 @@ var inputData = [
 			"name" : "billy",
 			"level" : 1,
 			"dob" : "2017-09-25T10:15:00Z",
+			"active":false
 		}
 	];
 

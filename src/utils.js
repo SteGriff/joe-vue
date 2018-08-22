@@ -31,3 +31,8 @@ function clone(obj) {
 
     throw new Error("Unable to copy obj! Its type isn't supported.");
 }
+
+function isNumeric(obj) {
+	//From jQuery 1.9.1
+	return !isNaN( parseFloat( obj ) ) && isFinite( obj );
+}
