@@ -31,8 +31,7 @@ Vue.component('joe-table', {
 			<td
 			class="pa1 ba b--black"
 			v-if="typeof(entity) === 'object' && key[0] !== '_' && key !== 'id'""
-			v-for="(field, key, index) in entity"
-      >
+			v-for="(field, key, index) in entity">
 				<joe-input
 					v-if="typeof(field) !== 'object'"
 					v-model="value[ekey][key]"
@@ -87,72 +86,75 @@ Vue.component('joe-table', {
 })
 
 Vue.component('joe-input', {
-  props: ['value', 'name'],
-  methods: {
-	inputType: function(val){
-		//var val = this.value;
-    if (val == null || val == undefined){return "text";}
-		var vType = typeof(val);
-		//console.log("inputType for", val, vType);
-		if (vType === "number")
-		{
-			return "number";
-		}
-		else if (vType === "date")
-		{
-			return "date";
-		}
-    else if (vType === "boolean")
-    {
-      return "checkbox";
-    }
-		else
-		{
-      if (val === 'true' || val === 'false')
-      {
-        return "checkbox";
-      }
-      else if (isNumeric(val))
-      {
-        return "number";
-      }
-			else if (val.indexOf('@') !== -1)
-			{
-				return "email";
-			}
-			else if (val.indexOf('://') !== -1)
-			{
-				return "url";
-			}
-			else if (Date.parse(val) > 0)
-			{
-				//console.log(Date.parse(val));
-				return "datetime";
-			}
-		}
-		
-		return "text";
-	},
-	valueFor : function(value)
-	{
-		//var vType = this.inputType();
-		//console.log("Format value for", vType);
-		return value;
-	}
-  },
-  template: `<div>
-			<label :for="name">
-				{{name}}
-			</label>
-			<input
-				:type="inputType(value)"
-				:id="name"
-				:name="name"
-				:value="value"
-        :checked="value === true"
-				v-on:input="$emit('input', $event.target.value)"/>
-			</div>`
-})
+    props: ['value', 'name'],
+    data: function () {
+        return {
+            inputType: null
+        };
+    },
+    mounted: function () {
+        this.inputType = this.getInputType(this.value);
+    },
+    methods: {
+        getInputType: function (val) {
+            if (val == null || val == undefined) {
+                return "text";
+            }
+
+            var vType = typeof (val);
+            if (vType === "number") {
+                return "number";
+            }
+            else if (vType === "date") {
+                return "date";
+            }
+            else if (vType === "boolean") {
+                return "checkbox";
+            }
+            else {
+                if (val === 'true' || val === 'false') {
+                    return "checkbox";
+                }
+                else if (isNumeric(val)) {
+                    return "number";
+                }
+                else if (val.indexOf('@') !== -1) {
+                    return "email";
+                }
+                else if (val.indexOf('://') !== -1) {
+                    return "url";
+                }
+                else if (Date.parse(val) > 0) {
+                    return "datetime";
+                }
+            }
+
+            return "text";
+        },
+        setValue: function (target) {
+            console.log("set", target, target.checked);
+            if (this.inputType === 'checkbox') {
+                this.$emit('input', target.checked);
+            }
+            else {
+                this.$emit('input', target.value);
+            }
+        }
+    },
+    template: `
+	    <div>
+		    <label :for="name">
+			    {{name}}
+		    </label>
+		    <input
+			    :type="inputType"
+			    :id="name"
+			    :name="name"
+			    :value="value"
+			    :checked="value === true"
+			    v-on:input="setValue($event.target)"/>
+	    </div>`
+});
 
 Vue.component('joe-ul', {
   props: ['value'],
